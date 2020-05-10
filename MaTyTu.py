@@ -77,12 +77,14 @@ class Window(QMainWindow):
         l5_button.clicked.connect(self.level5)
         ab_button = QToolButton(self, text="About", checkable=True)
         ab_button.clicked.connect(self.about_app)
-        q_button = QPushButton(self, text='Quit')
+        q_button = QPushButton(self, text='&Quit')
         q_button.clicked.connect(self.close_application)
+        q_button.setShortcut('Ctrl+Q')
+        q_button.setToolTip('Ctrl+Q')
 
         k_button = QPushButton(self)
         k_button.setIcon(QIcon('Keyboard.png'))
-        k_button.setToolTip('F10')
+        k_button.setToolTip('F8')
         k_button.clicked.connect(self.show_keyboard)
         self.dialog = KeyboardLayoutWindow(self)
         group = QButtonGroup(self, exclusive=True)
@@ -124,8 +126,8 @@ class Window(QMainWindow):
         self.grid.addWidget(self.createStatsGroup())
     def keyPressEvent(self, event):
         key = event.key()
-        # Show keyboard Layout if key F10 is pressed.
-        if key == Qt.Key_F10:
+        # Show keyboard Layout if key F8 is pressed.
+        if key == Qt.Key_F8:
             self.show_keyboard()
             self.dialog = KeyboardLayoutWindow(self)
 
