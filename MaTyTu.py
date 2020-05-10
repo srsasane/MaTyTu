@@ -17,7 +17,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QApplication, QGridLayout, QGroupBox, QLabel, QStyleFactory, QButtonGroup,
                              QVBoxLayout, QLineEdit, QFontDialog, QMessageBox, QWidget, QMainWindow,
-                             QToolBar, QPushButton, QRadioButton, QToolButton)
+                             QToolBar, QPushButton, QRadioButton, QToolButton, QHBoxLayout)
 
 __version__ = 'β'
 __author__ = 'Sudhir Sasane(सुधिर ससाणे)'
@@ -42,7 +42,7 @@ class Window(QMainWindow):
         h = V.height()
         w = V.width()
         self.AppWidth = 800
-        self.AppHeight = 400
+        self.AppHeight = 500
         self.setGeometry(h / 4, w / 20, self.AppWidth, self.AppHeight)
         # self.setFixedSize(x, y)
         self.setWindowTitle('MaTyTu β')
@@ -65,6 +65,7 @@ class Window(QMainWindow):
         self.addToolBar(Qt.TopToolBarArea, toolbarBox)
 
         l1_button = QRadioButton(self, text="पातळी१", checkable=True)
+        l1_button.setChecked(True)
         l1_button.clicked.connect(self.level1)
         l2_button = QRadioButton(self, text="पातळी२", checkable=True)
         l2_button.clicked.connect(self.level2)
@@ -245,19 +246,21 @@ class Window(QMainWindow):
 
     def createStatsGroup(self):
 
-        groupBox1 = QGroupBox("Best Food")
+        groupBox1 = QGroupBox("Typing Statistics")
+        groupBox1.setFont(title_font)
 
-        radio1 = QRadioButton("&Radio pizza")
-        radio2 = QRadioButton("R&adio taco")
-        radio3 = QRadioButton("Ra&dio burrito")
+        time_label = QLabel("Time")
+        time_label.setFont(normal_font)
+        wpm_label = QLabel("WPM")
+        wpm_label.setFont(normal_font)
+        acr_label = QLabel("Accuracy")
+        acr_label.setFont(normal_font)
 
-        radio1.setChecked(True)
-
-        hbox = QVBoxLayout()
-        hbox.addWidget(radio1)
-        hbox.addWidget(radio2)
-        hbox.addWidget(radio3)
-        hbox.addStretch(1)
+        hbox = QHBoxLayout()
+        hbox.addWidget(time_label)
+        hbox.addWidget(wpm_label)
+        hbox.addWidget(acr_label)
+        # hbox.addStretch(1)
         groupBox1.setLayout(hbox)
         return groupBox1
 
