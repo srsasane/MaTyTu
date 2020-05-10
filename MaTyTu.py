@@ -82,6 +82,7 @@ class Window(QMainWindow):
 
         k_button = QPushButton(self)
         k_button.setIcon(QIcon('Keyboard.png'))
+        k_button.setToolTip('F10')
         k_button.clicked.connect(self.show_keyboard)
         self.dialog = KeyboardLayoutWindow(self)
         group = QButtonGroup(self, exclusive=True)
@@ -113,7 +114,7 @@ class Window(QMainWindow):
         vBox.addWidget(self.time_label)
         self.groupBox.setLayout(vBox)
         self.entry = QLineEdit("येथे टाईप करा...", self)
-        # self.entry.setAlignment(Qt.AlignCenter)
+
         self.entry.setFont(marathi_font)
         vBox.addWidget(self.entry)
 
@@ -123,6 +124,10 @@ class Window(QMainWindow):
         self.grid.addWidget(self.createStatsGroup())
     def keyPressEvent(self, event):
         key = event.key()
+        # Show keyboard Layout if key F10 is pressed.
+        if key == Qt.Key_F10:
+            self.show_keyboard()
+            self.dialog = KeyboardLayoutWindow(self)
 
         if key == Qt.Key_Return:
             print(self.entry.text())
@@ -187,6 +192,7 @@ class Window(QMainWindow):
         print("Words from '" + self.filename + "' loaded successfully")
 
     def show_keyboard(self):
+
         self.dialog.show()
 
     def font_choice(self):
