@@ -57,7 +57,40 @@ class Window(QMainWindow):
         self.show()
 
     def load_matytu(self):
+        # Load toolbar
+        self.load_toolbar()
 
+        self.groupBox = QGroupBox('म टाय ट्यु-β')
+        self.groupBox.setFont(title_font)
+        self.groupBox.move(150, 50)
+        self.groupBox.resize(400, 400)
+
+        vBox = QVBoxLayout()
+        self.word_label = QLabel('', self)
+        self.get_word()
+        self.word_label.setAlignment(Qt.AlignCenter)
+        self.word_label.setFont(marathi_font)
+        self.word_label.setStyleSheet("QLabel { background-color : Blue; color : white; }");
+
+        vBox.addWidget(self.word_label)
+
+        self.time_label = QLabel('शेवटच्या शब्दाला लागलेला वेळ:-', self)
+        self.time_label.setAlignment(Qt.AlignCenter)
+        self.time_label.setStyleSheet("QLabel { background-color : gray; color :black; }");
+        self.time_label.setFont(normal_font)
+        vBox.addWidget(self.time_label)
+        self.groupBox.setLayout(vBox)
+        self.entry = QLineEdit("येथे टाईप करा...", self)
+
+        self.entry.setFont(marathi_font)
+        vBox.addWidget(self.entry)
+
+        self.start_time = time.time()
+
+        self.grid.addWidget(self.groupBox)
+        self.grid.addWidget(self.createStatsGroup())
+
+    def load_toolbar(self):
         ##
         toolbarBox = QToolBar(self)
         toolbarBox.setFixedWidth(self.AppWidth)
@@ -105,35 +138,6 @@ class Window(QMainWindow):
             button.setFont(button_font)
             group.addButton(button)
 
-        self.groupBox = QGroupBox('म टाय ट्यु-β')
-        self.groupBox.setFont(title_font)
-        self.groupBox.move(150, 50)
-        self.groupBox.resize(400, 400)
-
-        vBox = QVBoxLayout()
-        self.word_label = QLabel('', self)
-        self.get_word()
-        self.word_label.setAlignment(Qt.AlignCenter)
-        self.word_label.setFont(marathi_font)
-        self.word_label.setStyleSheet("QLabel { background-color : Blue; color : white; }");
-
-        vBox.addWidget(self.word_label)
-
-        self.time_label = QLabel('शेवटच्या शब्दाला लागलेला वेळ:-', self)
-        self.time_label.setAlignment(Qt.AlignCenter)
-        self.time_label.setStyleSheet("QLabel { background-color : gray; color :black; }");
-        self.time_label.setFont(normal_font)
-        vBox.addWidget(self.time_label)
-        self.groupBox.setLayout(vBox)
-        self.entry = QLineEdit("येथे टाईप करा...", self)
-
-        self.entry.setFont(marathi_font)
-        vBox.addWidget(self.entry)
-
-        self.start_time = time.time()
-
-        self.grid.addWidget(self.groupBox)
-        self.grid.addWidget(self.createStatsGroup())
     def keyPressEvent(self, event):
         key = event.key()
         # Show keyboard Layout if key F8 is pressed.
