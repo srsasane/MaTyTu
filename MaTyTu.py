@@ -62,6 +62,7 @@ class Window(QMainWindow):
 
         self.groupBox = QGroupBox('म टाय ट्यु-β')
         self.groupBox.setFont(title_font)
+        self.groupBox.setStyleSheet('QGroupBox  {color: green;}')
         self.groupBox.move(150, 50)
         self.groupBox.resize(400, 400)
 
@@ -283,7 +284,9 @@ class Window(QMainWindow):
         hbox.addWidget(wpm_label)
         hbox.addWidget(acr_label)
         # hbox.addStretch(1)
+
         groupBox1.setLayout(hbox)
+
         return groupBox1
 
 
