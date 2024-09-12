@@ -37,13 +37,15 @@ class Window(QMainWindow):
         centralWidget = QWidget()
         self.setCentralWidget(centralWidget)
         self.grid = QGridLayout(centralWidget)
-
+        # float AppWidth = 800
+        # float AppHeight = 500
         V = QApplication.desktop().screenGeometry()
         h = V.height()
         w = V.width()
+        w = V.width()
         self.AppWidth = 800
         self.AppHeight = 500
-        self.setGeometry(h / 4, w / 20, self.AppWidth, self.AppHeight)
+        self.setGeometry(int(h / 4.0),int( w / 20.0), self.AppWidth, self.AppHeight)
         # self.setFixedSize(x, y)
         self.setWindowTitle('MaTyTu β')
         self.setWindowIcon(QIcon('python.png'))
