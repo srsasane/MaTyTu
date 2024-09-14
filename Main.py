@@ -1,7 +1,7 @@
 import sys
 import PyQt5.QtWidgets as QtWidgets
 from MaTyTuWindow import Window
-# from KeyboardLayoutWindow import KeyboardLayoutWindow
+
 
 def run():
     app = QtWidgets.QApplication(sys.argv)
