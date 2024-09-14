@@ -2,6 +2,7 @@ import platform
 import random
 import sys
 import time
+import lastComtDate as gitComDate
 from KeyboardLayoutWindow import KeyboardLayoutWindow
 from PyQt5.QtCore import Qt, QT_VERSION_STR, PYQT_VERSION_STR
 from PyQt5.QtGui import *
@@ -9,12 +10,16 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QApplication, QGridLayout, QGroupBox, QLabel, QStyleFactory, QButtonGroup,
                              QVBoxLayout, QLineEdit, QFontDialog, QMessageBox, QWidget, QMainWindow,
                              QToolBar, QPushButton, QRadioButton, QToolButton, QHBoxLayout)
+import subprocess
+
+
 
 # import PyQt5.QtCore as QtCore
 # import PyQt5.QtGui as QtGui
 # import PyQt5.QtWidgets as QtWidgets
-__version__ = 'β'
+__version__ = '0.01'
 __author__ = 'Sudhir Sasane(सुधिर ससाणे)'
+
 word_count = 10
 DURATION_INT = 10
 button_font = QFont("Aksharyogini2", 14, QFont.Bold)
@@ -40,7 +45,7 @@ class Window(QMainWindow):
         self.AppHeight = 500
         self.setGeometry(int(h / 4.0),int( w / 20.0), self.AppWidth, self.AppHeight)
         # self.setFixedSize(x, y)
-        self.setWindowTitle('MaTyTu β')
+        self.setWindowTitle('MaTyTu '+__version__)
         self.setWindowIcon(QIcon('python.png'))
         self.filename = 'level1.txt'
         self.home()
@@ -231,14 +236,15 @@ class Window(QMainWindow):
             pass
 
     def about_app(self):
-
+        last_commit_date = gitComDate.get_last_commit_date()
         qmsgBox = QMessageBox(self)
         qmsgBox.setStyleSheet(
             'QMessageBox {background-color: #2b5b84; color: white;}\nQPushButton{color: white; font-size: 18px; background-color: #1d1d1d; border-radius: 10px; padding: 10px; text-align: center;}\n QPushButton:hover{color: #2b5b84;}')
         QMessageBox.about(qmsgBox, 'म टाय ट्यु',
                           """<font color='white'><font size=6><p><b>Marathi Typing Tutor</b></p></font>
             <font size=4><p><b>Version:</b> {0}</p>
-            <p><b>Author:  {1}</b></p>
+            <p><b>Last Commit:</b> {6}</p> 
+             <p><b>Author:  {1} </b></p> 
             <p><b>Web:</b></font><a href='https://vidnyankendra.org/'><font color='black'><font size=5>Vidnyan Kendra (विज्ञान केंद्र)</font></a></p>
             <font color='white'><font size=4><p><b>Email: </b>srsasane@protonmail.com</p>
             <p><b>Copyright:</b>  &copy; 2020 MaTyTu Project Contributors and Others.
@@ -247,7 +253,7 @@ class Window(QMainWindow):
             <p><b>You are using:</b></p>
             <p>Python {2} - Qt {3} - PyQt {4} on {5}</p></font>""".format(
                               __version__, __author__, platform.python_version(),
-                              QT_VERSION_STR, PYQT_VERSION_STR, platform.system()))
+                              QT_VERSION_STR, PYQT_VERSION_STR, platform.system(),gitComDate.get_last_commit_date()))
 
     def load_words(self):
         self.words = []
