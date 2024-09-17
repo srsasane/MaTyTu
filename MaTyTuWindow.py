@@ -4,6 +4,7 @@ import sys
 import time
 import lastComtDate as gitComDate
 from KeyboardLayoutWindow import KeyboardLayoutWindow
+from TypingTutor import TypingTutor as tt
 from PyQt5.QtCore import Qt, QT_VERSION_STR, PYQT_VERSION_STR
 from PyQt5.QtGui import *
 from PyQt5.QtGui import QIcon, QPixmap
@@ -51,8 +52,9 @@ class Window(QMainWindow):
         self.home()
 
     def home(self):
-
-        self.load_words()
+        
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         self.load_matytu()
         self.show()
 
@@ -60,7 +62,7 @@ class Window(QMainWindow):
         # Load toolbar
         self.load_toolbar()
 
-        self.groupBox = QGroupBox('म टाय ट्यु-β')
+        self.groupBox = QGroupBox('म टाय ट्यु-'+__version__)
         self.groupBox.setFont(title_font)
         self.groupBox.setStyleSheet('QGroupBox  {color: green;}')
         self.groupBox.move(150, 50)
@@ -68,7 +70,9 @@ class Window(QMainWindow):
 
         vBox = QVBoxLayout()
         self.word_label = QLabel('', self)
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
+      
         self.word_label.setAlignment(Qt.AlignCenter)
         self.word_label.setFont(marathi_font)
         self.word_label.setStyleSheet("QLabel { background-color : Blue; color : white; }");
@@ -148,7 +152,7 @@ class Window(QMainWindow):
 
         if key == Qt.Key_Return:
             print(self.entry.text())
-            if self.entry.text() == self.words[self.word_id]:
+            if self.entry.text() ==   self.tt.words[self.tt.word_id]:
                 self.end_time = time.time()
                 time_taken = float(self.end_time - self.start_time)
                 print("time taken: " + str(time_taken))
@@ -156,8 +160,9 @@ class Window(QMainWindow):
                 self.entry.clear()
                 self.start_time = self.end_time
                 self.time_label.setStyleSheet("QLabel { background-color : gray; color :black; }");
-                self.time_label.setText("शेवटचा शब्द:-  ' " + self.word + " ' \nलागलेला वेळ: %.3f Sec" % (time_taken))
-                self.get_word()
+                self.time_label.setText("शेवटचा शब्द:-  ' " + self.tt.word + " ' \nलागलेला वेळ: %.3f Sec" % (time_taken))
+                self.tt.get_word()
+                self.word_label.setText(self.tt.word)
 
 
             else:
@@ -165,47 +170,57 @@ class Window(QMainWindow):
                 self.end_time = time.time()
 
                 self.time_label.setStyleSheet("QLabel { background-color : red; color :black; }");
-                self.time_label.setText("शेवटचा शब्द: ' " + self.word + " ' चुकला.")
-                self.get_word()
+                self.time_label.setText("शेवटचा शब्द: ' " + self.tt.word + " ' चुकला.")
+                self.tt.get_word()
+                self.word_label.setText(self.tt.word)
 
                 self.start_time = self.end_time
 
     def level1(self):
         self.filename = 'level1.txt'
-        self.load_words()
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         QMessageBox.about(self, 'Level Select', "<P><font size = 6><b>पातळी १ निवडली आहे.</b>")
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
 
     def level2(self):
 
         self.filename = 'level2.txt'
-        self.load_words()
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         QMessageBox.about(self, 'Level Select', "<P><font size = 6><b>पातळी २ निवडली आहे.</b>")
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
         print("Words from '" + self.filename + "' loaded successfully")
 
     def level3(self):
 
         self.filename = 'level3.txt'
-        self.load_words()
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         QMessageBox.about(self, 'Level Select', "<P><font size = 6><b>पातळी ३ निवडली आहे.</b>")
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
         print("Words from '" + self.filename + "' loaded successfully")
 
     def level4(self):
-        print('I am in Level 4 now')
         self.filename = 'level4.txt'
-        self.load_words()
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         QMessageBox.about(self, 'Level Select', "<P><font size = 6><b>पातळी ४ निवडली आहे.</b>")
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
         print("Words from '" + self.filename + "' loaded successfully")
 
     def level5(self):
         print('I am in Level 5 now')
         self.filename = 'MarathiWords.txt'
-        self.load_words()
+        self.tt = tt(self.filename)
+        self.tt.load_words()
         QMessageBox.about(self, 'Level Select', "<P><font size = 6><b>पातळी ५ निवडली आहे.</b>")
-        self.get_word()
+        self.tt.get_word()
+        self.word_label.setText(self.tt.word)
         print("Words from '" + self.filename + "' loaded successfully")
 
     def show_keyboard(self):
@@ -255,18 +270,18 @@ class Window(QMainWindow):
                               __version__, __author__, platform.python_version(),
                               QT_VERSION_STR, PYQT_VERSION_STR, platform.system(),gitComDate.get_last_commit_date()))
 
-    def load_words(self):
-        self.words = []
-        f = open(self.filename, 'r', encoding="utf-8")
-        for line in f:
-            self.words.append(line.strip())
-            random.shuffle(self.words)
-        print(len(self.words) - 1, ' words from file ' + self.filename + ' loaded successfuly.')
+    # def load_words(self):
+    #     self.words = []
+    #     f = open(self.filename, 'r', encoding="utf-8")
+    #     for line in f:
+    #         self.words.append(line.strip())
+    #         random.shuffle(self.words)
+    #     print(len(self.words) - 1, ' words from file ' + self.filename + ' loaded successfuly.')
 
-    def get_word(self):
-        self.word_id = random.randint(0, len(self.words) - 1)
-        self.word = self.words[self.word_id]
-        self.word_label.setText(self.word)
+    # def get_word(self):
+    #     self.word_id = random.randint(0, len(self.words) - 1)
+    #     self.word = self.words[self.word_id]
+    #     self.word_label.setText(self.word)
 
     def createStatsGroup(self):
 
